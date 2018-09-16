@@ -1,0 +1,1707 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+      
+        <meta name="author" content="Andrea Zaccaro (@andzac)">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.3, mkdocs-material-3.0.4">
+    
+    
+      
+        <title>Manage client-server communication with LSP4J - Andnotes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.451f80e5.css">
+      
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="../../../#manage-client-server-communication-with-lsp4j" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../../.." title="Andnotes" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Andnotes
+              </span>
+              <span class="md-header-nav__topic">
+                Manage client-server communication with LSP4J
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../../.." title="Andnotes" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Andnotes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Homepage" class="md-nav__link">
+      Homepage
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Czech Lessons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Czech Lessons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Czech Lessons/accent/" title="Alphabet" class="md-nav__link">
+      Alphabet
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Czech Lessons/pronouns/" title="Personal pronouns" class="md-nav__link">
+      Personal pronouns
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Czech Lessons/ten_activities/" title="Ten activities" class="md-nav__link">
+      Ten activities
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Development docs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Development docs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Docker
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        Docker
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/UsefulCommand/" title="Most used Docker commands" class="md-nav__link">
+      Most used Docker commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1-2" type="checkbox" id="nav-4-1-2">
+    
+    <label class="md-nav__link" for="nav-4-1-2">
+      Clustering&Swarm
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-1-2">
+        Clustering&Swarm
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Clustering&Swarm/dockerSwarm/" title="Clustering" class="md-nav__link">
+      Clustering
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1-3" type="checkbox" id="nav-4-1-3">
+    
+    <label class="md-nav__link" for="nav-4-1-3">
+      Docker compose
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-1-3">
+        Docker compose
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Docker compose/dockerCompose/" title="dockerCompose" class="md-nav__link">
+      dockerCompose
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-1-4" type="checkbox" id="nav-4-1-4">
+    
+    <label class="md-nav__link" for="nav-4-1-4">
+      Labeling
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-1-4">
+        Labeling
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Docker/Labeling/label/" title="Label" class="md-nav__link">
+      Label
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Eclipse Che
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        Eclipse Che
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Eclipse Che/randomNotes/" title="randomNotes" class="md-nav__link">
+      randomNotes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-2-2" type="checkbox" id="nav-4-2-2">
+    
+    <label class="md-nav__link" for="nav-4-2-2">
+      Tree Management
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-2-2">
+        Tree Management
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Eclipse Che/Tree Management/SimpleTree/" title="Manage tree in Eclipse Che" class="md-nav__link">
+      Manage tree in Eclipse Che
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Java
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Java
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3-1" type="checkbox" id="nav-4-3-1">
+    
+    <label class="md-nav__link" for="nav-4-3-1">
+      JSON RPC
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-3-1">
+        JSON RPC
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Java/JSON-RPC/json-rpc/" title="JSON RPC standard" class="md-nav__link">
+      JSON RPC standard
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3-2" type="checkbox" id="nav-4-3-2">
+    
+    <label class="md-nav__link" for="nav-4-3-2">
+      Java 8 functionalities
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="3">
+      <label class="md-nav__title" for="nav-4-3-2">
+        Java 8 functionalities
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Java/Java-8 functionalities/ExecutorService/" title="ExecutorService" class="md-nav__link">
+      ExecutorService
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Java/Java-8 functionalities/ForkJoin/" title="Fork/Join framework" class="md-nav__link">
+      Fork/Join framework
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Java/Java-8 functionalities/Future/" title="Multithread with CompletableFuture" class="md-nav__link">
+      Multithread with CompletableFuture
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4" checked>
+    
+    <label class="md-nav__link" for="nav-4-4">
+      Language Server
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        Language Server
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Manage client-server communication with LSP4J
+      </label>
+    
+    <a href="./" title="Manage client-server communication with LSP4J" class="md-nav__link md-nav__link--active">
+      Manage client-server communication with LSP4J
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-launcher" title="The Launcher" class="md-nav__link">
+    The Launcher
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#builder-create" title="Builder - create()" class="md-nav__link">
+    Builder - create()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-createjsonhandler" title="Builder - createJsonHandler()" class="md-nav__link">
+    Builder - createJsonHandler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-getsupportedmethods" title="Builder - getSupportedMethods()" class="md-nav__link">
+    Builder - getSupportedMethods()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-createremoteendpoint" title="Builder - createRemoteEndpoint()" class="md-nav__link">
+    Builder - createRemoteEndpoint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-remoteendpoint-class" title="Extra - RemoteEndpoint class" class="md-nav__link">
+    Extra - RemoteEndpoint class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-operations-workflow" title="Builder operations workflow" class="md-nav__link">
+    Builder operations workflow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#note" title="Note" class="md-nav__link">
+    Note
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startlistening-startprocessing-method" title="startListening() &amp; startProcessing() method" class="md-nav__link">
+    startListening() &amp; startProcessing() method
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../VS-Code Extension/" title="VS-Code extension for the Language Server" class="md-nav__link">
+      VS-Code extension for the Language Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../langserver-spec/" title="Langage Server specification" class="md-nav__link">
+      Langage Server specification
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../lsp4j/" title="Implement a Language Server in java" class="md-nav__link">
+      Implement a Language Server in java
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../why-lsp/" title="Why a LSP?" class="md-nav__link">
+      Why a LSP?
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-5" type="checkbox" id="nav-4-5">
+    
+    <label class="md-nav__link" for="nav-4-5">
+      Maven
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-5">
+        Maven
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Maven/maven-multi-project/" title="Apache Maven dev note" class="md-nav__link">
+      Apache Maven dev note
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-6" type="checkbox" id="nav-4-6">
+    
+    <label class="md-nav__link" for="nav-4-6">
+      Serverless
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-6">
+        Serverless
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../Serverless/openFaaS/" title="OpenFaas for Serverless" class="md-nav__link">
+      OpenFaas for Serverless
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-7" type="checkbox" id="nav-4-7">
+    
+    <label class="md-nav__link" for="nav-4-7">
+      TypeScript6
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-7">
+        TypeScript6
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../TypeScript6/typescript/" title="Typescript" class="md-nav__link">
+      Typescript
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-8" type="checkbox" id="nav-4-8">
+    
+    <label class="md-nav__link" for="nav-4-8">
+      Mkdocs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-8">
+        Mkdocs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../mkdocs/Project layout/" title="Project layout" class="md-nav__link">
+      Project layout
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../mkdocs/commands/" title="Commands" class="md-nav__link">
+      Commands
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../mkdocs/theming/" title="Theming" class="md-nav__link">
+      Theming
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      English lessons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        English lessons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../English lessons/newTerms/" title="newTerms" class="md-nav__link">
+      newTerms
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../English lessons/verbs/" title="Verbs" class="md-nav__link">
+      Verbs
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Life in Prague
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Life in Prague
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../Life in Prague/Useful information/" title="Useful information" class="md-nav__link">
+      Useful information
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      OS2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        OS2018
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7-1" type="checkbox" id="nav-7-1">
+    
+    <label class="md-nav__link" for="nav-7-1">
+      Egkatastasis
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-7-1">
+        Egkatastasis
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../OS2018/Egkatastasis/egkatastasis/" title="OpenSUSE Egkatastasis" class="md-nav__link">
+      OpenSUSE Egkatastasis
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7-2" type="checkbox" id="nav-7-2">
+    
+    <label class="md-nav__link" for="nav-7-2">
+      Logging Container
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-7-2">
+        Logging Container
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../OS2018/Logging Container/syslog-ng/" title="Logging container with syslog-ng" class="md-nav__link">
+      Logging container with syslog-ng
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-launcher" title="The Launcher" class="md-nav__link">
+    The Launcher
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#builder-create" title="Builder - create()" class="md-nav__link">
+    Builder - create()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-createjsonhandler" title="Builder - createJsonHandler()" class="md-nav__link">
+    Builder - createJsonHandler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-getsupportedmethods" title="Builder - getSupportedMethods()" class="md-nav__link">
+    Builder - getSupportedMethods()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-createremoteendpoint" title="Builder - createRemoteEndpoint()" class="md-nav__link">
+    Builder - createRemoteEndpoint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-remoteendpoint-class" title="Extra - RemoteEndpoint class" class="md-nav__link">
+    Extra - RemoteEndpoint class
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#builder-operations-workflow" title="Builder operations workflow" class="md-nav__link">
+    Builder operations workflow
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#note" title="Note" class="md-nav__link">
+    Note
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#startlistening-startprocessing-method" title="startListening() &amp; startProcessing() method" class="md-nav__link">
+    startListening() &amp; startProcessing() method
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="manage-client-server-communication-with-lsp4j">Manage client-server communication with LSP4J</h1>
+<ul>
+<li>When two actors (clients and server) compliant to the LSP requirements need to communicate together they need a <strong>launcher</strong></li>
+<li>a Launcher is basically the entry point for applications that will be compliant with the LSP standard.</li>
+<li>LSP4J provides different kind of Launcher that implement the communication through the stdio channels.</li>
+<li>But is also possible use the stdio channels provided by a socket.</li>
+</ul>
+<pre><code>// wait for clients to connect on port 1044
+try(ServerSocket serverSocket = new ServerSocket(port)) {
+  Socket socket = serverSocket.accept();
+
+  Launcher&lt;LanguageClient&gt; launcher =
+      LSPLauncher.createServerLauncher(
+          myServer, socket.getInputStream(), socket.getOutputStream());
+
+  // add clients to the server
+  Runnable addClient = myServer.setRemoteProxy(launcher.getRemoteProxy());
+  launcher.startListening();
+  CompletableFuture.runAsync(addClient);
+}
+</code></pre>
+
+<p>In order to be able to define a multithread LS is necessary wrap the previous code snippet into a callable object.
+Each thread (that could be defined using different implementations of ExecutorService interface) will execute the callable task.</p>
+<pre><code>ExecutorService threadPool = Executors.newCachedThreadPool();
+Integer port = 1044;
+Callable&lt;Void&gt; callableTask =
+new Callable&lt;Void&gt;() {
+ @Override
+ public Void call() throws Exception {
+   while (true) {
+     try(ServerSocket serverSocket = new ServerSocket(port)) {
+       Socket socket = serverSocket.accept();
+
+       Launcher&lt;LanguageClient&gt; launcher =
+           LSPLauncher.createServerLauncher(
+               myServer, socket.getInputStream(), socket.getOutputStream());
+
+       // add clients to the server
+       Runnable addClient = myServer.setRemoteProxy(launcher.getRemoteProxy());
+       launcher.startListening();
+       CompletableFuture.runAsync(addClient);
+     }
+   }
+ }
+};
+threadPool.submit(callableTask);
+</code></pre>
+
+<blockquote>
+<p>The server needs to understand who is the client that asked to communicate with it. For this reason inside the callable activity there is an async task that execute a Runnable in order to add the LanguageClient retrieved from the launcher into the server instance that will use this class to access to the methods that it needs to use to send notification messages and other things to the connected client.</p>
+</blockquote>
+<h2 id="the-launcher">The Launcher</h2>
+<p>The launcher object provides all the underwood configuration in order to connect the remote endpoint via input and output stream.
+In particular the LSP launcher need some parameters:
+- <strong>local service</strong> = the concrete server implementation
+- <strong>remote interface</strong> = the LanguageClient class
+- <strong>input stream</strong>
+- <strong>output stream</strong></p>
+<p>Into the launcher is defined a builder that provides wires up all components necessary for the JSON-RPC communication.</p>
+<pre><code class="java">   /* @param localServices - the objects that receive method calls from the remote services
+     * @param remoteInterfaces - interfaces on which RPC methods are looked up
+     * @param classLoader - a class loader that is able to resolve all given interfaces
+     * @param in - input stream to listen for incoming messages
+     * @param out - output stream to send outgoing messages
+     * @param executorService - the executor service used to start threads
+     * @param wrapper - a function for plugging in additional message consumers
+     * @param configureGson - a function for Gson configuration
+     */
+    static Launcher&lt;Object&gt; createIoLauncher(Collection&lt;Object&gt; localServices, Collection&lt;Class&lt;?&gt;&gt; remoteInterfaces, ClassLoader classLoader,
+            InputStream in, OutputStream out, ExecutorService executorService, Function&lt;MessageConsumer, MessageConsumer&gt; wrapper,
+            Consumer&lt;GsonBuilder&gt; configureGson) {
+        return new Builder&lt;Object&gt;()
+                .setLocalServices(localServices)
+                .setRemoteInterfaces(remoteInterfaces)
+                .setClassLoader(classLoader)
+                .setInput(in)
+                .setOutput(out)
+                .setExecutorService(executorService)
+                .wrapMessages(wrapper)
+                .configureGson(configureGson)
+                .create();
+    }
+</code></pre>
+
+<h3 id="builder-create">Builder - create()</h3>
+<p>The <code>create()</code> method is entitled to define all the internal structures:</p>
+<pre><code class="java">public Launcher&lt;T&gt; create() {
+    if (input == null)
+        throw new IllegalStateException(&quot;Input stream must be configured.&quot;);
+    if (output == null)
+        throw new IllegalStateException(&quot;Output stream must be configured.&quot;);
+    if (localServices == null)
+        throw new IllegalStateException(&quot;Local service must be configured.&quot;);
+    if (remoteInterfaces == null)
+        throw new IllegalStateException(&quot;Remote interface must be configured.&quot;);
+
+    MessageJsonHandler jsonHandler = createJsonHandler();
+    RemoteEndpoint remoteEndpoint = createRemoteEndpoint(jsonHandler);
+    T remoteProxy;
+    if (localServices.size() == 1 &amp;&amp; remoteInterfaces.size() == 1) {
+        remoteProxy = ServiceEndpoints.toServiceObject(remoteEndpoint, remoteInterfaces.iterator().next());
+    } else {
+        remoteProxy = (T) ServiceEndpoints.toServiceObject(remoteEndpoint, (Collection&lt;Class&lt;?&gt;&gt;) (Object) remoteInterfaces, classLoader);
+    }
+    StreamMessageProducer reader = new StreamMessageProducer(input, jsonHandler, remoteEndpoint);
+    MessageConsumer messageConsumer = wrapMessageConsumer(remoteEndpoint);
+    ExecutorService execService = executorService != null ? executorService : Executors.newCachedThreadPool();
+
+    return new Launcher&lt;T&gt; () {
+        @Override
+        public Future&lt;Void&gt; startListening() {
+            return ConcurrentMessageProcessor.startProcessing(reader, messageConsumer, execService);
+        }
+
+        @Override
+        public T getRemoteProxy() {
+            return remoteProxy;
+        }
+
+        @Override
+        public RemoteEndpoint getRemoteEndpoint() {
+            return remoteEndpoint;
+        }
+    };
+}
+</code></pre>
+
+<h3 id="builder-createjsonhandler">Builder - createJsonHandler()</h3>
+<pre><code class="java">/**
+ * Create the JSON handler for messages between the local and remote services.
+ */
+protected MessageJsonHandler createJsonHandler() {
+  Map&lt;String, JsonRpcMethod&gt; supportedMethods = getSupportedMethods();
+  if (configureGson != null)
+    return new MessageJsonHandler(supportedMethods, configureGson);
+  else
+    return new MessageJsonHandler(supportedMethods);
+}
+</code></pre>
+
+<h3 id="builder-getsupportedmethods">Builder - getSupportedMethods()</h3>
+<pre><code class="java">/**
+* Gather all JSON-RPC methods from the local and remote services.
+*/
+protected Map&lt;String, JsonRpcMethod&gt; getSupportedMethods() {
+  Map&lt;String, JsonRpcMethod&gt; supportedMethods = new LinkedHashMap&lt;&gt;();
+  // Gather the supported methods of remote interfaces
+  for (Class&lt;?&gt; interface_ : remoteInterfaces) {
+    supportedMethods.putAll(ServiceEndpoints.getSupportedMethods(interface_));
+  }
+
+  // Gather the supported methods of local services
+  for (Object localService : localServices) {
+    if (localService instanceof JsonRpcMethodProvider) {
+        JsonRpcMethodProvider rpcMethodProvider = (JsonRpcMethodProvider) localService;
+        supportedMethods.putAll(rpcMethodProvider.supportedMethods());
+    } else {
+        supportedMethods.putAll(ServiceEndpoints.getSupportedMethods(localService.getClass()));
+    }
+  }
+
+  return supportedMethods;
+}
+</code></pre>
+
+<h3 id="builder-createremoteendpoint">Builder - createRemoteEndpoint()</h3>
+<pre><code class="java">/**
+* Create the remote endpoint that communicates with the local services.
+*/
+protected RemoteEndpoint createRemoteEndpoint(MessageJsonHandler jsonHandler) {
+  MessageConsumer outgoingMessageStream = new StreamMessageConsumer(output, jsonHandler);
+  outgoingMessageStream = wrapMessageConsumer(outgoingMessageStream);
+  RemoteEndpoint remoteEndpoint = new RemoteEndpoint(outgoingMessageStream, ServiceEndpoints.toEndpoint(localServices));
+  jsonHandler.setMethodProvider(remoteEndpoint);
+  return remoteEndpoint;
+}
+</code></pre>
+
+<h3 id="extra-remoteendpoint-class">Extra - RemoteEndpoint class</h3>
+<pre><code class="java">/**
+ * An endpoint that can be used to send messages to a given {@link MessageConsumer} by calling
+ * {@link #request(String, Object)} or {@link #notify(String, Object)}. When connected to a {@link MessageProducer},
+ * this class forwards received messages to the local {@link Endpoint} given in the constructor.
+ */
+ public class RemoteEndpoint implements Endpoint, MessageConsumer, MessageIssueHandler, MethodProvider {
+   private static final Logger LOG = Logger.getLogger(RemoteEndpoint.class.getName());
+
+   public static final Function&lt;Throwable, ResponseError&gt; DEFAULT_EXCEPTION_HANDLER = (throwable) -&gt; {
+     if (throwable instanceof ResponseErrorException) {
+       return ((ResponseErrorException) throwable).getResponseError();
+     } else if ((throwable instanceof CompletionException || throwable instanceof InvocationTargetException)
+         &amp;&amp; throwable.getCause() instanceof ResponseErrorException) {
+       return ((ResponseErrorException) throwable.getCause()).getResponseError();
+     } else {
+       return fallbackResponseError(&quot;Internal error&quot;, throwable);
+     }
+   };
+
+   private static ResponseError fallbackResponseError(String header, Throwable throwable) {
+     LOG.log(Level.SEVERE, header + &quot;: &quot; + throwable.getMessage(), throwable);
+     ResponseError error = new ResponseError();
+     error.setMessage(header + &quot;.&quot;);
+     error.setCode(ResponseErrorCode.InternalError);
+     ByteArrayOutputStream stackTrace = new ByteArrayOutputStream();
+     PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
+     throwable.printStackTrace(stackTraceWriter);
+     stackTraceWriter.flush();
+     error.setData(stackTrace.toString());
+     return error;
+   }
+
+   private final MessageConsumer out;
+   private final Endpoint localEndpoint;
+   private final Function&lt;Throwable, ResponseError&gt; exceptionHandler;
+
+   private final AtomicInteger nextRequestId = new AtomicInteger();
+   private final Map&lt;String, PendingRequestInfo&gt; sentRequestMap = new LinkedHashMap&lt;&gt;();
+   private final Map&lt;String, CompletableFuture&lt;?&gt;&gt; receivedRequestMap = new LinkedHashMap&lt;&gt;();
+
+   //...
+
+   //constructor area
+
+   /**
+    * @param out - a consumer that transmits messages to the remote service
+    * @param localEndpoint - the local service implementation
+    * @param exceptionHandler - an exception handler that should never return null.
+    */
+   public RemoteEndpoint(MessageConsumer out, Endpoint localEndpoint, Function&lt;Throwable, ResponseError&gt; exceptionHandler) {
+     if (out == null)
+       throw new NullPointerException(&quot;out&quot;);
+     if (localEndpoint == null)
+       throw new NullPointerException(&quot;localEndpoint&quot;);
+     if (exceptionHandler == null)
+       throw new NullPointerException(&quot;exceptionHandler&quot;);
+     this.out = out;
+     this.localEndpoint = localEndpoint;
+     this.exceptionHandler = exceptionHandler;
+   }
+
+   /**
+    * @param out - a consumer that transmits messages to the remote service
+    * @param localEndpoint - the local service implementation
+    */
+   public RemoteEndpoint(MessageConsumer out, Endpoint localEndpoint) {
+     this(out, localEndpoint, DEFAULT_EXCEPTION_HANDLER);
+   }
+
+   // ... other methods ...
+ }
+</code></pre>
+
+<h3 id="builder-operations-workflow">Builder operations workflow</h3>
+<ol>
+<li>
+<p>Create an instance of <code>MessageJsonHandler</code> (using internal method <code>createJsonHandler()</code>): MessageJsonHandler works as a wrapper around Gson that includes configuration necessary for the RPC communication. Using its routine <code>getSupportedMethods()</code> the <code>MessageJsonHandler</code> will be populated with the list of all RPC supported methods both for client and server.</p>
+</li>
+<li>
+<p>With the defined <code>MessageJsonHandler</code> object, the builder invoke the <code>createRemoteEndpoint()</code> method. Here a new Endpoint is created with a defined <code>MessageConsumer</code> and <code>Endpoint</code> defined.</p>
+</li>
+</ol>
+<h3 id="note">Note</h3>
+<blockquote>
+<p><code>ServiceEndpoints.toEndpoint(localServices)</code> is a static method defined by the <code>ServiceEndpoint</code> class and it wraps a given object with service annotations behind an Endpoint interface.</p>
+</blockquote>
+<pre><code class="java">/**
+ * Wraps a collection of objects with service annotations behind an {@link Endpoint} interface.
+ *
+ * @return the wrapped service endpoint
+ */
+public static Endpoint toEndpoint(Collection&lt;Object&gt; serviceObjects) {
+  return new GenericEndpoint(serviceObjects);
+}
+</code></pre>
+
+<ol>
+<li>
+<p>Next is necessary define the <code>remoteProxy</code> object that will be used by the LS to set the LanguageClient class (that will be used to inspect methods available that the server will use to send messages to the server)</p>
+</li>
+<li>
+<p>In order to define the RemoteProxy a static method provided by <code>ServiceEndpoints</code> will be used. This routine wraps a given Endpoint in the given service interface.</p>
+</li>
+</ol>
+<p><code>java
+  /**
+     * Wraps a given {@link Endpoint} in the given service interface.
+     *
+     * @return the wrapped service object
+     */
+    @SuppressWarnings("unchecked")
+    public static &lt;T&gt; T toServiceObject(Endpoint endpoint, Class&lt;T&gt; interface_) {
+        Class&lt;?&gt;[] interfArray = new Class[]{interface_, Endpoint.class};
+        EndpointProxy invocationHandler = new EndpointProxy(endpoint, interface_);
+        return (T) Proxy.newProxyInstance(interface_.getClassLoader(), interfArray, invocationHandler);
+    }</code>
+4. After that is necessary define the <code>MessageConsumer</code> that reads from an input stream and parses messages from JSON
+5. Finally is necessary define a new ExecutorService or use one already defined and sent to the <code>createLauncher()</code> method
+6. After all these steps, a new anonymous class for <code>Launcher&lt;T&gt;</code> is created and are also defined methods that the new class need to override from the <code>Launcher</code> interface:</p>
+<pre><code class="java">@SuppressWarnings(&quot;unchecked&quot;)
+public Launcher&lt;T&gt; create() {
+    //...
+
+    return new Launcher&lt;T&gt; () {
+        @Override
+        public Future&lt;Void&gt; startListening() {
+            return ConcurrentMessageProcessor.startProcessing(reader, messageConsumer, execService);
+        }
+
+        @Override
+        public T getRemoteProxy() {
+            return remoteProxy;
+        }
+
+        @Override
+        public RemoteEndpoint getRemoteEndpoint() {
+            return remoteEndpoint;
+        }
+    };
+}
+</code></pre>
+
+<h2 id="startlistening-startprocessing-method">startListening() &amp; startProcessing() method</h2>
+<p>The <code>startListening()</code> method is defined by each class that implements the Launcher interface, and also anonymous classes.
+This method invoke the static <code>startProcessing()</code> method defined by the class <code>ConcurrentMessageProcessor</code>, defined into the package <code>org.eclipse.lsp4j.jsonrpc.json</code>.
+The class <code>ConcurrentMessageProcessor</code> implements the <code>Runnable</code> interface and its static method startProcessing return a <code>Future&lt;Void&gt;</code> that will be resolved when the started thread is terminated:</p>
+<pre><code class="java">/**
+ * Start a thread that listens for messages in the message producer and forwards them to the message consumer.
+ *
+ * @param messageProducer - produces messages, e.g. by reading from an input channel
+ * @param messageConsumer - processes messages and potentially forwards them to other consumers
+ * @param executorService - the thread is started using this service
+ * @return a future that is resolved when the started thread is terminated, e.g. by closing a stream
+ */
+public static Future&lt;Void&gt; startProcessing(MessageProducer messageProducer, MessageConsumer messageConsumer,
+    ExecutorService executorService) {
+  ConcurrentMessageProcessor reader = new ConcurrentMessageProcessor(messageProducer, messageConsumer);
+  final Future&lt;?&gt; result = executorService.submit(reader);
+  return new Future&lt;Void&gt;() {
+
+    @Override
+    public Void get() throws InterruptedException, ExecutionException {
+      return (Void) result.get();
+    }
+
+    @Override
+    public Void get(long timeout, TimeUnit unit)
+        throws InterruptedException, ExecutionException, TimeoutException {
+      return (Void) result.get(timeout, unit);
+    }
+
+    @Override
+    public boolean isDone() {
+      return result.isDone();
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      if (mayInterruptIfRunning &amp;&amp; messageProducer instanceof Closeable) {
+        try {
+          ((Closeable) messageProducer).close();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+      return result.cancel(mayInterruptIfRunning);
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return result.isCancelled();
+    }
+  };
+</code></pre>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../Java/Java-8 functionalities/Future/" title="Multithread with CompletableFuture" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Multithread with CompletableFuture
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../VS-Code Extension/" title="VS-Code extension for the Language Server" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                VS-Code extension for the Language Server
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.583bbe55.js"></script>
+      
+      <script>app.initialize({version:"1.0.3",url:{base:"../../.."}})</script>
+      
+    
+    
+      
+    
+  </body>
+</html>
